@@ -1,7 +1,7 @@
-
+#include "MutualFunctions.h"
 
 int main() 
 {
-    startMenu();
+    //startMenu();
 	return 0;
 }
