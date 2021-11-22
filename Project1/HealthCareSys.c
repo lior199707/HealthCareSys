@@ -2,6 +2,7 @@
 
 int main() 
 {
+	puts('s');
     //startMenu();
 	return 0;
 }
