@@ -12,4 +12,5 @@
 
 void startMenu();//this menu lets the user choose wether he is a client or a doctor
 
+char* toString(const char* str);//returns a dynamical allocation of a char[] 
 #endif // !MUTUALFUNCTIONS_H
