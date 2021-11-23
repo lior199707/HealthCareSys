@@ -10,4 +10,6 @@
 #include <stdlib.h>
  
 
+void startMenu();//this menu lets the user choose wether he is a client or a doctor
+
 #endif // !MUTUALFUNCTIONS_H
