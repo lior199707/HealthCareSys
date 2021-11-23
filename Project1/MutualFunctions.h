@@ -9,7 +9,5 @@
 #include <string.h>
 #include <stdlib.h>
  
-char* toString(const char* str); // returns a dynamical allocation of a char[]
-
 
 #endif // !MUTUALFUNCTIONS_H
