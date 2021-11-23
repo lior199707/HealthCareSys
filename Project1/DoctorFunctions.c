@@ -53,7 +53,41 @@ void doctorLogIn()
 		free(fullName);
 
 }
-
+//returns the chosen medical field by the doctor, a valid medical field must be one of follows:
+//"Allergy and immunology", "Dermatology", "Family medicine", "Neurology","Pathology", "Psychiatry", "Surgery", "Urology";
+char* getMedicalField()
+{
+	const char alergy[] = "Allergy and immunology", dermatology[] = "Dermatology", family[] = "Family medicine", neurology[] = "Neurology";
+	const char pathology[] = "Pathology", psychiatry[] = "Psychiatry", surgery[] = "Surgery", urology[] = "Urology";
+	int doctorChoice;
+	puts("Please choose the number that represents your medical field");
+	printf("1.%s        2.%s\n", alergy, dermatology);
+	printf("3.%s               4.%s\n", family, neurology);
+	printf("5.%s                     6.%s\n", pathology, psychiatry);
+	printf("7.%s                       8.%s\n", surgery, urology);
+	scanf_s("%d", &doctorChoice);//get the  choice from the doctor
+	while ((doctorChoice < 1) || (doctorChoice > 8))//as long as the doctor didnt choose a valid option
+	{
+		puts("The number you chose doesnt exist, please try again");
+		scanf_s("%d", &doctorChoice);
+	}
+	if (doctorChoice == 1)
+		return toString(alergy);
+	else if (doctorChoice == 2)
+		return toString(dermatology);
+	else if (doctorChoice == 3)
+		return toString(family);
+	else if (doctorChoice == 4)
+		return toString(neurology);
+	else if (doctorChoice == 5)
+		return toString(pathology);
+	else if (doctorChoice == 6)
+		return toString(psychiatry);
+	else if (doctorChoice == 7)
+		return toString(surgery);
+	else
+		return toString(urology);
+}
 
 
 
