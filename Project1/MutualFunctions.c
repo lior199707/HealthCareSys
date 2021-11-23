@@ -88,15 +88,3 @@ char* toString(const char* str)
 	return result;
 }
 
-char* toString(const char* str)
-{
-	char* result = NULL;//the final string to return
-	result = (char*)malloc(strlen(str) + 1);
-	if (!result)
-	{
-		puts("error converting to string");
-		return "";
-	}
-	strcpy(result, str);
-	return result;
-}
