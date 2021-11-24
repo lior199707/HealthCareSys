@@ -141,6 +141,26 @@ void EditDetailsInDb(const char* what, const char* newWhat, const char* dbNmae, 
 	sqlite3_close(db);
 }
 
+//gets the name of the col to get the info from in the db('what'),db name, table name in the db,the id of the user we want to take the info from
+//return the information wanted
+char* GetDetailsFromDb(const char* what, const char* dbName, const char* tableName, const char* id)
+{
+	char* errmsg = NULL;
+	char query[500] = "";
+	sqlite3* db;
+	sqlite3_stmt* stmt;
+	sprintf(query, "SELECT %s FROM %s where id = %s", what, tableName, id);//prepeare the query with variables
+	sqlite3_open(dbName, &db);//open the db
+	sqlite3_prepare_v2(db, query, -1, &stmt, 0);//execute the query
+	const unsigned char* str = NULL;
+	sqlite3_step(stmt);
+	str = sqlite3_column_text(stmt, 0);//str is now the piece of info we looked for
+	char* result = toString(str);
+	sqlite3_finalize(stmt);
+	sqlite3_close(db);
+	return result;
+}
+
 //prints str from the index startIndex with a certain max num of comas in a row
 //str will look like this: 12:00,12:30,13:00,13:30,14:00,14:30,......
 void printByComa(int startIndex, const char* str, int maxNumOfComaInARow)
