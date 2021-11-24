@@ -88,3 +88,41 @@ char* toString(const char* str)
 	return result;
 }
 
+//used for user login, checks if the password and id provided by the user exists in the db, 
+//if exists return his full name, otherwise returns an empty string
+char* detailsExistsInDb(const char* dbName, const char* id, const char* password)
+{
+	char* errmsg = NULL;
+	char query[500] = "";
+	char* tableName = "";
+	sqlite3* db;
+	sqlite3_stmt* stmt;
+	if (!strcmp(dbName, "doctorDb.db"))//if the data base is the doctor db
+		tableName = "doctorInfo";//the name of the table is doctorInfo
+	else//if its the cleint db
+		tableName = "clientInfo";//the name of the table is clientInfo
+	sprintf(query, "SELECT id,password,full_name FROM %s", tableName);//prepare the query with variables
+	sqlite3_open(dbName, &db);//open the wanted db
+	sqlite3_prepare_v2(db, query, -1, &stmt, 0);//execute the query
+	const unsigned char* currId = NULL;
+	const unsigned char* currPassword = NULL;
+	const unsigned char* currFullName = NULL;
+	while (sqlite3_step(stmt) != SQLITE_DONE)//run on all the database line by line
+	{
+		currId = sqlite3_column_text(stmt, 0);
+		currPassword = sqlite3_column_text(stmt, 1);
+		currFullName = sqlite3_column_text(stmt, 2);
+		if (!strcmp(currId, id) && !strcmp(currPassword, password))//check if the pass and id match to the ones that the user provided
+		{
+			//if found a match 
+			char* fullName = toString(currFullName);
+			sqlite3_finalize(stmt);
+			sqlite3_close(db);
+			return fullName;//return his full name
+		}
+	}
+	sqlite3_finalize(stmt);
+	sqlite3_close(db);
+	return toString("");//otherwise return empty string
+}
+
