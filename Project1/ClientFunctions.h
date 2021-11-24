@@ -4,6 +4,8 @@
 
 void clientRegister();//gets full name, id and password of the client and adds it to the data base
 int chooseDateForAppointmnent(docId);//gets the date the client wants to schedule an appointment 
+void clientLogIN();//gets the id and password from the user and checks if it exists in the data base
+void bookAppointment(char* id);//books an appointment by a choice of: medical field,doctor name,date and time,updates both client db and doctor db 
 
 
 #endif // !CLIENTFUNCTIONS_H
