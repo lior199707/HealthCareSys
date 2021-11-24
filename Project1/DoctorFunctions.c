@@ -106,6 +106,17 @@ int chooseDate()
 	return dayChoice;
 }
 
+//gets a day in February (for example 17 represents the 17/02), returns the column name in the doctors db that represents the day number in Fubruary
+char* colNameInDocTableByDate(int day)
+{
+	char* a[] = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+				  "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
+				  "eighteen", "nineteen", "twenty", "twenty_one", "twenty_two", "twenty_three",
+				  "twenty_four", "twenty_five", "twenty_six", "twenty_seven", "twenty_eight" };
+	return a[day - 1];
+}
+
+
 
 
 //printf("shalom");
