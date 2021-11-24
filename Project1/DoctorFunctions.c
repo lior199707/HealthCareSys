@@ -200,6 +200,31 @@ void tryBlockingDate(char* id)
 	free(fieldInCol);
 	return;
 }
+//gets the doctor's string of the available and not available time on a desired date and return only the not available string
+char* getBookedAppointmentsList(const char* str)
+{
+	char bookedAppointments[700] = "";
+	int size = strlen(str);
+	int index = 0;
+	int hasSeenAsterisk = 0;//the booked appointments apear after an the '*'
+	for (int i = 0; i < size; i++)
+	{
+		if (str[i] == '*')//if the char we run on is asteriks
+			hasSeenAsterisk = 1;//indicate that we found the asteriks
+		else //if the char we run on isnt an asteriks
+		{
+			if (!hasSeenAsterisk)//if we havent seen the asteriks yet
+				continue;//continue to the next char
+			else //if we already saw the asteriks
+			{
+				bookedAppointments[index] = str[i];//copy the char
+				index++;
+			}
+		}
+	}
+	return toString(bookedAppointments);
+}
+
 
 
 
