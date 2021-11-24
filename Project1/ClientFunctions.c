@@ -14,6 +14,25 @@ void clientRegister()
 	free(id);
 	free(password);
 }
+
+//add the information: id,password,full name to the client db
+void addClientToDb(char* id, char* pass, char* fullName)
+{
+	char* errmsg = NULL;
+	char query[MAXSIZE] = "";
+	sqlite3* db;
+	sqlite3_stmt* stmt;
+	sqlite3_open("clientDb.db", &db);//opent the client db
+	int rc = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS clientInfo(id TEXT UNIQUE,password TEXT, full_name Text, future_appointments TEXT DEFAULT 'NULL');", NULL, NULL, errmsg);//if its the first client to join the sb create the table
+	if (rc != SQLITE_OK)//if there was a problem when the table was created
+		printf("Error: %s\n", errmsg);//print the problem
+	sprintf(query, "INSERT INTO clientInfo (id,password,full_name) VALUES ('%s', '%s', '%s');", id, pass, fullName);//prepeare the query with the information of the client
+	rc = sqlite3_exec(db, query, NULL, NULL, &errmsg);//execute the query, adds the client to the db
+	if (rc != SQLITE_OK)//if there was a problem while trying to add the client to the db
+		printf("Error: %s\n", errmsg);//print it to the screen
+	sqlite3_close(db);
+}
+
 //asks the client to choose a date for the appointment, prints to the screen a list of the doctors blocked dates so the client wont choose them
 int chooseDateForAppointmnent(docId)
 {
