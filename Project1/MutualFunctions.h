@@ -15,4 +15,5 @@ void startMenu();//this menu lets the user choose wether he is a client or a doc
 char* toString(const char* str);//returns a dynamical allocation of a char[] 
 
 char* detailsExistsInDb(const char* dbName, const char* id, const char* password);//checks if the id and password provided by the user exists in the db, used for log in
+void EditDetailsInDb(const char* what, const char* newWhat, const char* dbNmae, const char* tableName, const char* id);//gets what to edit, to what to edit it and where to edit it and edits it in the db
 #endif // !MUTUALFUNCTIONS_H

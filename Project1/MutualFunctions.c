@@ -126,3 +126,18 @@ char* detailsExistsInDb(const char* dbName, const char* id, const char* password
 	return toString("");//otherwise return empty string
 }
 
+//gets the name of the col to edit in the db('what'),what to edit it to(newWhat),db name, table name in the db,the id of the user we want to perform the changes on
+void EditDetailsInDb(const char* what, const char* newWhat, const char* dbNmae, const char* tableName, const char* id)
+{
+	char* errmsg = NULL;
+	char query[500] = "";
+	sqlite3* db;
+	sqlite3_stmt* stmt;
+	sprintf(query, "UPDATE %s SET %s = '%s' WHERE id = %s", tableName, what, newWhat, id);//prepeare the query with variables
+	sqlite3_open(dbNmae, &db);//opens the db
+	int rc = sqlite3_exec(db, query, NULL, NULL, &errmsg);//excute the query
+	if (rc != SQLITE_OK)//if there was an error
+		printf("Error: %s\n", errmsg);//print it
+	sqlite3_close(db);
+}
+
