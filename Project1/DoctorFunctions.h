@@ -7,4 +7,5 @@ char* getMedicalField();//gets the medical filed of the doctor from an existing 
 int chooseDate();//return the int that represents the day in february the user chose
 char* colNameInDocTableByDate(int day);//gets a day in february and returns the string that represents it in the doctors db columns
 void printAllBlockedDates(const char* str);//prints all blocked dates of a doctor to the screen
+void tryBlockingDate(char* id);//if the day is blockable(wasnt blocked already,has no appointments yet) changed the value of the field to "Blocked", otherwise prints a proper masssage to the srcreen
 #endif // !DOCTORFUNCTIONS_H

@@ -137,6 +137,33 @@ void printAllBlockedDates(const char* str)
 	puts("");
 }
 
+//gets the id of the logged in doctor, gets the day the doctor want to block for appointments, if the day is already blocked 
+//or has at least one scheduled appointment prints a proper message to the screen, otherwise block the date by changing the 
+//column field in the chart to 'Blocked'
+void tryBlockingDate(char* id)
+{
+	int dayChoice = chooseDate();//gets the day to block
+	char* columnName = colNameInDocTableByDate(dayChoice);//gets the name of the column representing the number of the day to block
+	char* fieldInCol = GetDetailsFromDb(columnName, "doctorDb.db", "doctorInfo", id);//gets the filed in the column representing the day to block
+	if (!strcmp(fieldInCol, "Blocked"))//if date is already blocked
+	{
+		puts("The day is already blocked");
+		return;
+	}
+	char* bookedStr = getBookedAppointmentsList(fieldInCol);//gets only the book appointments string
+	if (strcmp(bookedStr, "taken:"))//if they differ, means there is at least one appointment booked
+	{
+		puts("Sorry, but you cant block this day, looks like a patient has already booked an appointment on this day");
+		return;
+	}
+	//set the string in the wanted column to "Blocked", indeicae the day is blocked
+	EditDetailsInDb(columnName, "Blocked", "doctorDb.db", "doctorInfo", id);
+	addDateToBlockedList(dayChoice, id);//add the number of the day to the blocked days list
+	puts("The day was blocked succesfuly");
+	free(fieldInCol);
+	return;
+}
+
 
 //printf("shalom");
 //jklkjlkjlkjlk
