@@ -141,3 +141,58 @@ void EditDetailsInDb(const char* what, const char* newWhat, const char* dbNmae, 
 	sqlite3_close(db);
 }
 
+//prints str from the index startIndex with a certain max num of comas in a row
+//str will look like this: 12:00,12:30,13:00,13:30,14:00,14:30,......
+void printByComa(int startIndex, const char* str, int maxNumOfComaInARow)
+{
+	int index = startIndex;//the index we start printing from
+	int size = strlen(str);
+	int numOfComas = 0;
+	for (index; index < size; index++)
+	{
+		if (str[index] == ',') //if found a coma
+		{
+			numOfComas += 1;//indicate we found it
+			if (numOfComas == maxNumOfComaInARow) //if we reached to the maximum number of comas in a row
+			{
+				printf("\n");//go down a row
+				numOfComas = 0;//and start counting the num of comas in the row from 0
+			}
+			else//if still havent reached to the max num of comas in a row
+				printf("%c", str[index]);//print the coma
+		}
+
+		else//if it isnt a coma
+			printf("%c", str[index]);//print it
+	}
+	printf("\n");
+}
+
+//gets a string that contains values separated by comas and the starting place of the substring we want to delete from the string 'str'
+//returns the string 'str' without the substring
+//str will look like this: 12:00,12:30,13:00,13:30,14:00,14:30,......
+char* deleteSubString(char* str, char* placeOfSubStr)
+{
+	int size = strlen(str);
+	int strIndex = 0;//the index we run on in the 'str' string
+	int resultIndex = 0;//the index we run on in the result string
+	char result[MAXSIZE];//'str' without the appearance of the substring to delete
+	for (strIndex; strIndex < size; strIndex++)//run on all str
+	{
+		if (placeOfSubStr == &str[strIndex])//if reached to the start of the subString to delete dont copy it
+		{
+			strIndex++;
+			while (str[strIndex] != ',')//keep going untill the next coma
+			{
+				strIndex++;
+			}
+		}
+		else//if it ist the subString to delete
+		{
+			result[resultIndex] = str[strIndex];//copy it to the result string
+			resultIndex++;
+		}
+	}
+	result[resultIndex] = '\0';
+	return toString(result);
+}
