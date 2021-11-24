@@ -224,6 +224,20 @@ char* getBookedAppointmentsList(const char* str)
 	}
 	return toString(bookedAppointments);
 }
+//gets the doctors's string of the available and not available times for appointment, returnsonlt the available times list 
+char* getOnlyAvailableTimesList(char* availableAndNot)
+{
+	char availableTimes[MAXSIZE] = "";
+	int  size = strlen(availableAndNot);
+	int index = 0;
+	while (availableAndNot[index] != '*')//as long as we didnt reach to the '*' keep coping fron the available and not string
+	{
+		availableTimes[index] = availableAndNot[index];
+		index++;
+	}
+	availableTimes[index] = '\0';
+	return toString(availableTimes);
+}
 
 
 
