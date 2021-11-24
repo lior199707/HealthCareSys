@@ -53,6 +53,7 @@ void doctorLogIn()
 		free(fullName);
 
 }
+
 //returns the chosen medical field by the doctor, a valid medical field must be one of follows:
 //"Allergy and immunology", "Dermatology", "Family medicine", "Neurology","Pathology", "Psychiatry", "Surgery", "Urology";
 char* getMedicalField()
@@ -89,7 +90,21 @@ char* getMedicalField()
 		return toString(urology);
 }
 
-
+//returns the date in February the user chose as an int
+int chooseDate()
+{
+	int dayChoice;
+	puts("the minimum date you can choose is 01/02/22 and the maximum date is 28/02/22");
+	puts("Please enter the day in february that you want to perform the action on");
+	puts("for example: enter 1 for 01/02, enter 28 for 28/02");
+	scanf_s("%d", &dayChoice);//get the date 
+	while (dayChoice < 1 || dayChoice > 28)//while the date isnt valid
+	{
+		puts("the day you entered is not valid, please enter a number between 1 and 28");
+		scanf_s("%d", &dayChoice);//get it again
+	}
+	return dayChoice;
+}
 
 
 
