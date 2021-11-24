@@ -116,7 +116,26 @@ char* colNameInDocTableByDate(int day)
 	return a[day - 1];
 }
 
-
+//gets the string of all the blocked dates and prints it to the screen
+void printAllBlockedDates(const char* str)
+{
+	puts("Blocked dates list:");
+	if (!strcmp(str, "NULL"))//ifthere are no blocked dates
+	{
+		puts("There are no blocked dates\n");
+		return;
+	}
+	//if there are blocked dates
+	int size = strlen(str);
+	for (int i = 0; i < size; i++)//run on the list and print every date in a new line
+	{
+		if (str[i] == ',')
+			printf("/02\n");
+		else
+			printf("%c", str[i]);
+	}
+	puts("");
+}
 
 
 //printf("shalom");
