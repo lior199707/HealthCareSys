@@ -89,6 +89,43 @@ char* getMedicalField()
 	else
 		return toString(urology);
 }
+//returns a string of the doctor's list of hours by: start hour,end hour and difference of time between meetings
+char* getListOfTurns()
+{
+	char startHour[MAXSIZE];
+	char endHour[MAXSIZE];
+	int hoursValid = 0;//indicate if start and end hours are valid
+	int timeBetweenMeetings;
+	puts("You are about to enter the hour you want to start work at and the hour you want to finish work at, a valid start/end hour should be later than 08:00 and less than 22:00");
+	puts("the hour you will enter should be in this formation: xy:00, x,y represent numbers between 0 and 9");
+	puts("Keep in mind, the start hour should be before the finish hour");
+	puts("Please enter your start hour:");
+	getchar();
+	gets(startHour);//get teh start hour
+	puts("Please enter your end hour:");
+	gets(endHour);//get the end hour
+	hoursValid = isHourValid(startHour, endHour);//check if the hours are valid
+	while (!hoursValid)//as long as the hours are not valid geet it again from the doctor
+	{
+		puts("Something went wrong with the hours you entered, please follow the rules above and try again");
+		puts("Please enter your start hour:");
+		gets(startHour);
+		puts(startHour);
+		puts("Please enter your end hour:");
+		gets(endHour);
+		hoursValid = isHourValid(startHour, endHour);
+	}
+	puts("Please enter the time required for a single meeting in minutes, valid times are: 15 , 30, 60 only");
+	scanf_s("%d", &timeBetweenMeetings);//get the difference of time between meetings
+	while ((timeBetweenMeetings != 15) && (timeBetweenMeetings != 30) && (timeBetweenMeetings != 60))//if its not vaild
+	{
+		puts("the time gap you entered is not valid, please try again");
+		scanf_s("%d", &timeBetweenMeetings);//get it again
+	}
+	getchar();
+	return createListOfHours(atoi(startHour), atoi(endHour), timeBetweenMeetings);//returns the list of appointment hours by the start, end times and the difference between meetings
+}
+
 
 //returns the date in February the user chose as an int
 int chooseDate()
@@ -163,6 +200,7 @@ void tryBlockingDate(char* id)
 	free(fieldInCol);
 	return;
 }
+
 
 
 //printf("shalom");
