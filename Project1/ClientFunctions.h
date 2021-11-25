@@ -12,6 +12,8 @@ void clientLogIN();//gets the id and password from the user and checks if it exi
 void bookAppointment(char* id);//books an appointment by a choice of: medical field,doctor name,date and time,updates both client db and doctor db 
 void editFutureAppointmentsAfterBooking(char* clientId, char* docId, char* docName, char* docGender, char* date, char* time);//updates the client db and doctor db after a client has booked an appointment
 void cancelAppointment(char* id);//gets from the client the doctor id,the date and the time of the meeting he wants to cancel and updates both data bases
+void watchFutureAppointments(char* id);//prints the client future appointments to the screen
+char* createNewAllAppointmentsListByComa(char* AllAppointmentsList, int numOfComaToDel);//gets the future appoinmtnet list of the client and returns the list without the appointment to cancel by the index of the coma to delete
 
 
 #endif // !CLIENTFUNCTIONS_H

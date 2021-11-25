@@ -294,3 +294,47 @@ void cancelAppointment(char* id)
 	free(newAllAppointmentsList);
 }
 
+//prints to the screen all the client future appointments
+void watchFutureAppointments(char* id)
+{
+	char* allAppointmentsList = GetDetailsFromDb("future_appointments", "clientDb.db", "clientInfo", id);//gets the future appointmentms list by the id of the client
+	puts("Future appointments:");
+	if (!strcmp(allAppointmentsList, "NULL"))//if there are no future appointments
+		puts("You have no future meetings");
+	else//if there are future appointments
+		printByComa(0, allAppointmentsList, 1);//print them
+}
+
+//returns the AllAppointmentsList of the client without the appointment he wants to cancel
+//numOfComaToDel: this parameter tells after how many comas ,from the tart of the AllAppointmentsList,
+//the appointment to cancel show, and when the number of commas passed equals to the number of coma to delete
+//we dont copy from the  all appointments list to teh buffer
+char* createNewAllAppointmentsListByComa(char* AllAppointmentsList, int numOfComaToDel)//////////////////////////////////
+{
+	int size = strlen(AllAppointmentsList);
+	char buffer[MAXSIZE];
+	int bufferIndex = 0;//buffer writing index
+	int numOfComaPassed = 0;//how many comas passed from the start of the word
+	for (int i = 0; i < size; i++)//run on the allAppoinmentsList 
+	{
+		if (AllAppointmentsList[i] == ',') //if we see a coma
+		{
+			numOfComaPassed++;
+		}
+		if (numOfComaPassed == numOfComaToDel)//if we reached to the appointment to cancel
+			continue;//dont opy to buffer
+		else//if its another appointment
+		{
+			if (bufferIndex == 0 && AllAppointmentsList[i] == ',')//prevents the aapearence of ',' in the start of the new allAppoinmentsList 
+				continue;
+			buffer[bufferIndex] = AllAppointmentsList[i];//copy it to the buffer
+			bufferIndex++;
+		}
+
+	}
+	buffer[bufferIndex] = '\0';
+	if (!strcmp(buffer, ""))
+		return toString("");
+	return toString(buffer);
+}
+
