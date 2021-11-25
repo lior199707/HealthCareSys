@@ -240,6 +240,30 @@ void tryBlockingDate(char* id)
 	free(fieldInCol);
 	return;
 }
+
+//after a date was blocked adds it to the blocked dates list
+void addDateToBlockedList(int day, char* id)
+{
+	char buffer[MAXSIZE] = "";
+	char buffer2[MAXSIZE] = "";
+	char* blockedDatesStr = GetDetailsFromDb("blocked_dates", "doctorDb.db", "doctorInfo", id);//returns the blocked dates list of the doctor from the db
+	if (!strcmp(blockedDatesStr, "NULL"))//if there are no blocked dates
+	{
+		snprintf(buffer, MAXSIZE, "%d", day);//copy to the buffer the new blocked day
+		strcat(buffer, ",");
+		EditDetailsInDb("blocked_dates", buffer, "doctorDb.db", "doctorInfo", id);//update the blocked dates list to be with the date that was blocked
+	}
+	else //if there are blocked dates
+	{
+		sprintf(buffer, "%s", blockedDatesStr);//set buffer to have the previous list off blocked days
+		snprintf(buffer2, MAXSIZE, "%d", day);//set buffer 2 with the new day that was blocked
+		strcat(buffer, buffer2);//add the new blocked date to the previous list of blocked dates
+		strcat(buffer, ",");
+		EditDetailsInDb("blocked_dates", buffer, "doctorDb.db", "doctorInfo", id);//update the blocked dates list to be with the date that was blocked day
+	}
+	free(blockedDatesStr);
+}
+
 //gets the doctor's string of the available and not available time on a desired date and return only the not available string
 char* getBookedAppointmentsList(const char* str)
 {
