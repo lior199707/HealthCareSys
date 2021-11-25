@@ -7,6 +7,7 @@ void addClientToDb(char* id, char* pass, char* fullName);//adds the client infor
 int chooseDateForAppointmnent(docId);//gets the date the client wants to schedule an appointment 
 void clientLogIN();//gets the id and password from the user and checks if it exists in the data base
 void bookAppointment(char* id);//books an appointment by a choice of: medical field,doctor name,date and time,updates both client db and doctor db 
+void editFutureAppointmentsAfterBooking(char* clientId, char* docId, char* docName, char* docGender, char* date, char* time);//updates the client db and doctor db after a client has booked an appointment
 
 
 #endif // !CLIENTFUNCTIONS_H

@@ -116,3 +116,27 @@ void bookAppointment(char* id)
 	free(time);
 }
 
+//after a client booked an appointment adds all the detail of the appointment to his future appointments list
+void editFutureAppointmentsAfterBooking(char* clientId, char* docId, char* docName, char* docGender, char* date, char* time)
+{
+	char buffer[MAXSIZE] = "";
+	char* currFutureAppointmentsList = GetDetailsFromDb("future_appointments", "clientDb.db", "clientInfo", clientId);//gets the future appointments list of the client
+	if (strcmp(currFutureAppointmentsList, "NULL"))//if there are future appointments already
+		strcpy(buffer, currFutureAppointmentsList);//copy them to the buffer
+	strcat(buffer, docId);
+	strcat(buffer, " ");
+	strcat(buffer, docName);
+	strcat(buffer, " ");
+	strcat(buffer, docGender);
+	strcat(buffer, " ");
+	strcat(buffer, date);
+	strcat(buffer, " ");
+	strcat(buffer, time);
+	strcat(buffer, ",");
+	//the buffer now looks like this: "docId:.... DocNmae:.... docGender:... date:... time:..., DocId:........."
+	char* newFutureAppointmetnsStr = toString(buffer);
+	EditDetailsInDb("future_appointments", newFutureAppointmetnsStr, "clientDb.db", "clientInfo", clientId);
+	free(newFutureAppointmetnsStr);
+	free(currFutureAppointmentsList);
+}
+
