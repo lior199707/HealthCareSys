@@ -355,6 +355,29 @@ int isTitleValid(const char* title)
 		return 1;
 	return 0;
 }
+//check if the hours are valid hours, a valid hour has 5 chars, the hours must end in ':00' and the first two chars must be digits
+//the first digit cant be hiher than 2 (no hour 30:00) ,the start hour must be previous to the end hour and the working hours must
+//be between 08:00 to 22:00
+int isHourValid(const char* startHour, const char* endHour)
+{
+	if ((strlen(startHour) != 5) || (strlen(endHour) != 5))//if the hour isnt in the right pattern  'xy:qz'
+		return 0;
+	//if the minutes are not '00' or the ':' isnt in the right place or the first 2 digits are not numbers
+	if ((startHour[3] != '0') || (startHour[4] != '0') || (startHour[2] != ':') || (startHour[0] > '9') || (startHour[0] < '0') || (startHour[1] > '9') || (startHour[1] < '0'))
+		return 0;
+	if ((endHour[3] != '0') || (endHour[4] != '0') || (endHour[2] != ':') || (endHour[0] > '9') || (endHour[0] < '0') || (endHour[1] > '9') || (endHour[1] < '0'))
+		return 0;
+	if ((startHour[0] > '2') || (endHour[0] > '2'))//the first digit in an hour can be 0,1 or 2
+		return 0;
+	int maxHour = 22;//max hour 22:00
+	int minHour = 8;//min hour 08:00
+	int start = atoi(startHour);
+	int end = atoi(endHour);
+	//if the the start hour and the end hour are in the valid range and start hour is before end hour
+	if ((start >= minHour) && (start <= maxHour) && (end >= minHour) && (end <= maxHour) && (start < end))
+		return 1;
+	return 0;
+}
 //after an appointment was booked changes the string that represents the  available times and taken times, returns a new 
 //string regards to the new appointment time, removes the new time from the available times and adds it to the taken times 
 //:param time: the time to remove from the available times list and add to the not available list
