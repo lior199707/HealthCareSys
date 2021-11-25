@@ -214,6 +214,40 @@ void printAllBlockedDates(const char* str)
 	puts("");
 }
 
+//opens a day that was blocked before for mettings, replaces the string in the column from "Blocked" to the original list of hours of the doctor 
+void openBlockedDate(char* id)
+{
+	char buffer[2] = "";
+	char* blockedDatesList = GetDetailsFromDb("blocked_dates", "doctorDb.db", "doctorInfo", id);//returns the blocked date list of the doctors db
+	printAllBlockedDates(blockedDatesList);//prints the blocked dates list to the screen
+	if (!strcmp(blockedDatesList, "NULL"))//if there are no blocked days
+		return;
+	int dateToReopen = chooseDate();//lets the doctor choose a date
+	char* colName = colNameInDocTableByDate(dateToReopen);//return the chosen date as written in the column of chart in the db
+	char* colField = GetDetailsFromDb(colName, "doctorDb.db", "doctorInfo", id);//returns string in the field of the chosen column in the chart
+	if (!strcmp(colField, "Blocked")) //if the day is blocked
+	{
+		//set the filed to be the original_list_of_hours
+		char* originalListOfHours = GetDetailsFromDb("original_list_of_hours", "doctorDb.db", "doctorInfo", id);
+		EditDetailsInDb(colName, originalListOfHours, "doctorDb.db", "doctorInfo", id);
+		//erase it from the blocked_dates
+		snprintf(buffer, 2, "%d", dateToReopen);//stores the date to reopen in buffer
+		char* placeOfSubString = strstr(blockedDatesList, buffer);//return a pointer to the first appearance of the day to reopen in the blocked dates list
+		char* newBlockedDatedList = deleteSubString(blockedDatesList, placeOfSubString);//returns the blocked dates list without the date to reopen
+		if (!strcmp(newBlockedDatedList, ""))//if after the deletion there are no blocked dates update the field in the chart to NULL
+			EditDetailsInDb("blocked_dates", "NULL", "doctorDb.db", "doctorInfo", id);
+		else//otherwise update it to the new blocked dates list
+			EditDetailsInDb("blocked_dates", newBlockedDatedList, "doctorDb.db", "doctorInfo", id);
+		free(newBlockedDatedList);
+	}
+	else//if the date is not blocked
+	{
+		puts("Oops, the date you chose isnt blocked");
+	}
+	free(blockedDatesList);
+	free(colField);
+}
+
 //gets the id of the logged in doctor, gets the day the doctor want to block for appointments, if the day is already blocked 
 //or has at least one scheduled appointment prints a proper message to the screen, otherwise block the date by changing the 
 //column field in the chart to 'Blocked'
