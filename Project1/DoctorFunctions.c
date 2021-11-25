@@ -239,6 +239,48 @@ char* getOnlyAvailableTimesList(char* availableAndNot)
 	return toString(availableTimes);
 }
 
+//creates the string of the doctor's list of hours by: start hour,end hour and difference of time between meetings
+char* createListOfHours(int startHour, int endHour, int timeBetweenMeetings)
+{
+	char result[MAXSIZE] = "";//the string to return
+	char currHour[3];//the current hour we are runnig on
+	int minutes = 0;//the current minute
+	while (startHour < endHour)//as long as we didnt reach to the end hours
+	{
+		if (minutes == 60)//if an hour as passed
+		{
+			startHour += 1;//add 1 to the hour
+			minutes = 0;
+			if (startHour == endHour)
+				break;
+		}
+		if (minutes == 0)//if the minutes are 0
+		{
+			if (startHour < 10) //if the curr hour is a single digit number add a '0' to the string
+				strcat(result, "0");
+			snprintf(currHour, 3, "%d", startHour);
+			strcat(result, currHour);//than add the current hour to the string
+			strcat(result, ":00,");//than add ':00' to the string
+			minutes += timeBetweenMeetings;
+		}
+		else //if minutes == 15,30,
+		{
+			if (startHour < 10) //if the curr hour is a single digit number add a '0' to the string
+				strcat(result, "0");
+			snprintf(currHour, 3, "%d", startHour);
+			strcat(result, currHour);//add the current hour to the string
+			strcat(result, ":");//add ':' to the string
+			snprintf(currHour, 3, "%d", minutes);
+			strcat(result, currHour);//add the current minutes to the string
+			strcat(result, ",");//add a coma
+			minutes += timeBetweenMeetings;
+		}
+	}
+	strcat(result, "*taken:");//add '*taken:' to the string 
+	return toString(result);
+}
+
+
 
 
 
