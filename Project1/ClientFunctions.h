@@ -13,7 +13,9 @@ void bookAppointment(char* id);//books an appointment by a choice of: medical fi
 void editFutureAppointmentsAfterBooking(char* clientId, char* docId, char* docName, char* docGender, char* date, char* time);//updates the client db and doctor db after a client has booked an appointment
 void cancelAppointment(char* id);//gets from the client the doctor id,the date and the time of the meeting he wants to cancel and updates both data bases
 void watchFutureAppointments(char* id);//prints the client future appointments to the screen
+char* chooseDocIdByField(char* medicalField);//get the id of the doctor the client want to book an appointment with
 char* createNewAllAppointmentsListByComa(char* AllAppointmentsList, int numOfComaToDel);//gets the future appoinmtnet list of the client and returns the list without the appointment to cancel by the index of the coma to delete
+int numOfComasForAppointmentCancelation(char* tempAllAppointmentsList, char* tempAppointmentToCancel);//return the number of comas has passed untill found the appointment to cancel,if wasnt found return -1
 
 
 #endif // !CLIENTFUNCTIONS_H

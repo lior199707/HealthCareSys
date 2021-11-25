@@ -305,6 +305,25 @@ void watchFutureAppointments(char* id)
 		printByComa(0, allAppointmentsList, 1);//print them
 }
 
+//gets the medical field chosen by the user, prints to the screen all the doctors from the chosen medical field
+//and asks the user to choose a doctor by entering his id
+char* chooseDocIdByField(char* medicalField)
+{
+	char* docIdList = getListOfDoctorsByMedicalField(medicalField);//prints to the screen the list of doctor from the chosen medical feild and returns a list of all their ID's
+	puts("\nYou are about to enter the ID of the doctor you want to book an appointment with");
+	getchar();
+	char* id = getId();//gets the id of the doctor the client wants to schedule an appointment with
+	char* ret = strstr(docIdList, id);//check if the id provided by the client exists in the doctors id list
+	while (ret == NULL) //if it doesnt exists
+	{
+		puts("The id you choose doesnt exist in the list above");
+		id = getId();//get the id again
+		ret = strstr(docIdList, id);//and check if it exists in the ID's list again
+	}
+	free(docIdList);
+	return toString(id);
+}
+
 //returns the AllAppointmentsList of the client without the appointment he wants to cancel
 //numOfComaToDel: this parameter tells after how many comas ,from the tart of the AllAppointmentsList,
 //the appointment to cancel show, and when the number of commas passed equals to the number of coma to delete
@@ -336,5 +355,35 @@ char* createNewAllAppointmentsListByComa(char* AllAppointmentsList, int numOfCom
 	if (!strcmp(buffer, ""))
 		return toString("");
 	return toString(buffer);
+}
+
+//gets the tempAllAppointmentsList and tempAppointmentToCancel, returns the number of comas we passed untill reached to
+//the tempAppointmentToCancel in the tempAllAppointmentsList.(it will be the same number of comas we should pass
+//in order to find the appointment to cancel in the real allAppointmentsList)
+//if didnt found a match returns -1 indicates the client didnt provide us with accurate information
+int numOfComasForAppointmentCancelation(char* tempAllAppointmentsList, char* tempAppointmentToCancel)
+{
+	char buffer[MAXSIZE] = "";
+	int numOfComasPassed = 0;
+	int size = strlen(tempAllAppointmentsList);
+	int bufferIndex = 0;//the next index in buffer to write to
+	for (int i = 0; i < size; i++) //run on all the tempAllAppointmentsList
+	{
+		if (tempAllAppointmentsList[i] == ',') //if found a coma
+		{
+			//means that buffer now contains the information about a certain appointment
+			if (!strcmp(buffer, tempAppointmentToCancel))//check if the appointment in the buffer matches the appointment to cancel
+				return numOfComasPassed;//if true return the number of comas we saw before
+			numOfComasPassed++;//if the buufer differs from the appointment to cancel
+			memset(buffer, '\0', MAXSIZE);//empty the buffer
+			bufferIndex = 0;//set the place to write in buffer to 0
+		}
+		else //id it isnt a coma
+		{
+			buffer[bufferIndex] = tempAllAppointmentsList[i];//add it to the buffer
+			bufferIndex++;
+		}
+	}
+	return -1;//if didnt found an appointments that matches the client appointment to cancel
 }
 
