@@ -8,6 +8,7 @@ int chooseDateForAppointmnent(docId);//gets the date the client wants to schedul
 void clientLogIN();//gets the id and password from the user and checks if it exists in the data base
 void bookAppointment(char* id);//books an appointment by a choice of: medical field,doctor name,date and time,updates both client db and doctor db 
 void editFutureAppointmentsAfterBooking(char* clientId, char* docId, char* docName, char* docGender, char* date, char* time);//updates the client db and doctor db after a client has booked an appointment
+void cancelAppointment(char* id);//gets from the client the doctor id,the date and the time of the meeting he wants to cancel and updates both data bases
 
 
 #endif // !CLIENTFUNCTIONS_H

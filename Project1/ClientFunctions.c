@@ -140,3 +140,60 @@ void editFutureAppointmentsAfterBooking(char* clientId, char* docId, char* docNa
 	free(currFutureAppointmentsList);
 }
 
+//gives the client the option to cancel a future meeting, if the client has no future meetings, prints it and returns to the options menu
+//oterwise prints the list of future meetings and asks for the id of the doctor the date and time of the meeting to cancel
+//if the detials provided dont much any of the future appointments prints a proper message to the screen and returns
+//to the options menu ,otherwise, deletes the meeting from the future appointments list and marks the time slot as 
+//available in the doctors available and not times list
+void cancelAppointment(char* id)
+{
+	char chosenDate[6];
+	char chosenTime[MAXSIZE];
+	char* allAppointmentsList = GetDetailsFromDb("future_appointments", "clientDb.db", "clientInfo", id);//gets the future appointments string of the client
+	if (!strcmp(allAppointmentsList, "NULL"))//if the client has no future appointments
+	{
+		puts("You have no future appointments yet");
+		return;
+	}
+	puts("\nYou are about to enter the doctor ID, the date and the hour of the appointment you want to cancel\n");
+	puts("Here is your future appointments list:");
+	printByComa(0, allAppointmentsList, 1);//print all the client's future appointments to the screen
+	//creater a temporary list from the future appointments list in this format: DocId1*Date1*Time1,DocId2*Date2*Time2
+	char* tempAllAppointmentsList = createTempAppointmentsList(allAppointmentsList);
+	puts(tempAllAppointmentsList);
+	getchar();
+	puts("Please enter the doctor ID");
+	char* docId = getId();//gets the doctor id of the appointment to cancel from the client
+	puts("\nPlease enter the day of the date");
+	int date = chooseDate();//gets the date of the appointment to cancel
+	snprintf(chosenDate, 6, "%d/02", date);
+	puts("Please enter the time");
+	getchar();
+	gets(chosenTime);//gets the time of the appointmnet to cancel
+	while (!isChosenTimeValid(chosenTime, chosenTime))//checks if the time is valid by his pattern(xw:qw)
+	{
+		gets(chosenTime);
+	}
+	//creates a temporary string from the client input in this format: docId*date*time
+	char* tempAppointmentToCancle = createTempAppointmentToCancle(docId, chosenDate, chosenTime);
+	int numOfComasPassedUntillFoundMatch = numOfComasForAppointmentCancelation(tempAllAppointmentsList, tempAppointmentToCancle);//finds the place of the appointment to cancel in the future appointments string by the amount of comas has passed untill saw it
+	if (numOfComasPassedUntillFoundMatch == -1)//if there was no such appointment
+	{
+		puts("The details you entered are not legal so the program returned you to the options menu\n");
+		return;//retunrn to the client options menu
+	}
+	char* newAllAppointmentsList = createNewAllAppointmentsListByComa(allAppointmentsList, numOfComasPassedUntillFoundMatch);//remove the appointment to cancel from the future appointments list
+	//update newAllAppointmentsList to the client future_appointments column
+	char* colNameInDocDb = colNameInDocTableByDate(date);
+	editAvailableAndNotStrAfterCancelation(colNameInDocDb, docId, chosenTime);//adds the time to the doctor available time list and removes it from the not available times list
+	if (!strcmp(newAllAppointmentsList, ""))//if after the deletion there are no future appointments	
+		EditDetailsInDb("future_appointments", "NULL", "clientDb.db", "clientInfo", id);//update the string to NULL in the client db
+	else//if there are still future appointments
+		EditDetailsInDb("future_appointments", newAllAppointmentsList, "clientDb.db", "clientInfo", id);//update the future appointments list to the new one after the deletion
+	free(allAppointmentsList);
+	free(tempAllAppointmentsList);
+	free(docId);
+	free(tempAppointmentToCancle);
+	free(newAllAppointmentsList);
+}
+
