@@ -2,6 +2,9 @@
 #ifndef CLIENTFUNCTIONS_H
 #define CLIENTFUNCTIONS_H
 
+
+void clientMenu();//login/register menu presented to the client 
+void clientOptionsMenu(char* fullName, char* id);//the menu presented with actions for the client after he logged in
 void clientRegister();//gets full name, id and password of the client and adds it to the data base
 void addClientToDb(char* id, char* pass, char* fullName);//adds the client information to the chart in the SQLite database
 int chooseDateForAppointmnent(docId);//gets the date the client wants to schedule an appointment 
