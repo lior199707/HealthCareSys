@@ -10,6 +10,7 @@ int chooseDate();//return the int that represents the day in february the user c
 char* colNameInDocTableByDate(int day);//gets a day in february and returns the string that represents it in the doctors db columns
 void printAllBlockedDates(const char* str);//prints all blocked dates of a doctor to the screen
 void openBlockedDate(char* id);//gets a day the doctor wants to reopen, if the chosen day wasnt blocked prints a proper massage to the screen otherwise changes the day value to the original list of hours the doctor had before he blocked the date and removes said date fron the blocked dates list
+char* getListOfDoctorsByMedicalField(char* medicalField);//returns a string of the ID's of the doctor from the wanted medical field separeted by comas and prints their IDs names and gender to the screen
 void tryBlockingDate(char* id);//if the day is blockable(wasnt blocked already,has no appointments yet) changed the value of the field to "Blocked", otherwise prints a proper masssage to the srcreen
 void addDateToBlockedList(int day, char* id);//after a date was blocked adds the number of the date to the blocked dates column in the doctor db 
 char* getBookedAppointmentsList(const char* str);//gets a string that contains the available times and taken times on a specific day and retunrs only the string of the booked appointments a doctor has

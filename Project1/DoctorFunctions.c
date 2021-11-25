@@ -248,6 +248,37 @@ void openBlockedDate(char* id)
 	free(colField);
 }
 
+//print all the doctors from the wanted medical field to the screen by this format: "ID: Name: Gneder:", 
+//returns a list of all the id's of the doctors from the wanted medical field : id1,id2,id3...
+char* getListOfDoctorsByMedicalField(char* medicalField)
+{
+	char doctorIdList[MAXSIZE] = "";//result to return
+	char buffer[200] = "";
+	char* errmsg = NULL;
+	char query[500] = "";
+	sqlite3* db;
+	sqlite3_stmt* stmt;
+	sprintf(query, "SELECT id,full_name,gender FROM doctorInfo WHERE medical_field = '%s'", medicalField);//prepare the query with variables
+	sqlite3_open("doctorDb.db", &db);//open doctors db
+	sqlite3_prepare_v2(db, query, -1, &stmt, 0);//execute the query
+	const unsigned char* currId = NULL;
+	const unsigned char* currFullName = NULL;
+	const unsigned char* currGender = NULL;
+	printf("\nDoctors list from the field %s:\n", medicalField);
+	while (sqlite3_step(stmt) != SQLITE_DONE)//for each doctor in list of the doctors from the wanted medical field
+	{
+		currId = sqlite3_column_text(stmt, 0);
+		currFullName = sqlite3_column_text(stmt, 1);
+		currGender = sqlite3_column_text(stmt, 2);
+		printf("ID: %s Name: %s Gender: %s\n", currId, currFullName, currGender);//print his id,name,gender
+		sprintf(buffer, "%s,", currId);//setto the buffer to the current doctor id
+		strcat(doctorIdList, buffer);//add the id to the result to return
+	}
+	sqlite3_finalize(stmt);
+	sqlite3_close(db);
+	return toString(doctorIdList);
+}
+
 //gets the id of the logged in doctor, gets the day the doctor want to block for appointments, if the day is already blocked 
 //or has at least one scheduled appointment prints a proper message to the screen, otherwise block the date by changing the 
 //column field in the chart to 'Blocked'
