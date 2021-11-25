@@ -280,9 +280,30 @@ char* createListOfHours(int startHour, int endHour, int timeBetweenMeetings)
 	return toString(result);
 }
 
+//after an appointment was booked changes the string that represents the  available times and taken times, returns a new 
+//string regards to the new appointment time, removes the new time from the available times and adds it to the taken times 
+//:param time: the time to remove from the available times list and add to the not available list
+//:param colNameInDb: the date the action is performed on
+void editAvailableAndNotStrAfterBooking(char* colNameInDb, char* docId, char* time)
+{
+	char buffer[MAXSIZE] = "";
+	char* availableAndNot = GetDetailsFromDb(colNameInDb, "doctorDb.db", "doctorInfo", docId);//returns the available and not available times of a doctor in the date 'colNameInDb'
+	char* availableStr = getOnlyAvailableTimesList(availableAndNot);//returns only the available times list
+	char* notAvailableStr = getBookedAppointmentsList(availableAndNot);//returns only the not available times list
+	char* placeOfTimeInAvailableStr = strstr(availableStr, time);//returns a pointer to the first appearance of the time to delete in the available times string
+	char* newAvailableStr = deleteSubString(availableStr, placeOfTimeInAvailableStr);//deletes the time from the available string
+	//recreate the available and not times string in the buffer
+	strcat(buffer, newAvailableStr);
+	strcat(buffer, "*");
+	strcat(buffer, notAvailableStr);
+	strcat(buffer, time);
+	strcat(buffer, ",");
+	char* newAvailableAndNot = toString(buffer);
+	EditDetailsInDb(colNameInDb, newAvailableAndNot, "doctorDb.db", "doctorInfo", docId);//update the available and not string to the new one after booking
+	free(availableAndNot);
+	free(availableStr);
+	free(notAvailableStr);
+	free(newAvailableStr);
+	free(newAvailableAndNot);
+}
 
-
-
-
-//printf("shalom");
-//jklkjlkjlkjlk

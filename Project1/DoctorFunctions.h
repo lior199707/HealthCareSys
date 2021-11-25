@@ -12,4 +12,6 @@ void tryBlockingDate(char* id);//if the day is blockable(wasnt blocked already,h
 char* getBookedAppointmentsList(const char* str);//gets a string that contains the available times and taken times on a specific day and retunrs only the string of the booked appointments a doctor has
 char* getOnlyAvailableTimesList(char* availableAndNot);//gets the string of available times and not available times a doctor has in a certain date and returns only the available ones
 char* createListOfHours(int startHour, int endHour, int timeBetweenMeetings);//get the start hour, end hour and time between meetings and creates the list of appointments for the doctor
+void editAvailableAndNotStrAfterBooking(char* colNameInDb, char* docId, char* time);//after an appointment was booked changes the string that represents the  available times and taken times, returns a new string regards to the new appointment time, removes the new time from the available times and adds it to the taken times 
+
 #endif // !DOCTORFUNCTIONS_H
