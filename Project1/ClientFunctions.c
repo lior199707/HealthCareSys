@@ -3,6 +3,103 @@
 #include "MutualFunctions.h"
 #include "DoctorFunctions.h"
 
+
+//login/register menu presented to the client 
+void clientMenu()
+{
+	int exitFlag = 1;//indicates if the user wants to leave the program
+	int userChoice;//the choice from the menu
+	while (exitFlag)
+	{
+		puts("----------------------------------------------------");
+		puts("User Menu:\n");
+		puts("1. Login");
+		puts("2. Register");
+		puts("3. Back to main menu");
+		puts("----------------------------------------------------");
+		puts("If you already have an account please login otherwise register");
+		puts("Please choose your prefered option");
+		scanf_s("%d", &userChoice);
+		while ((userChoice < 1) || (userChoice > 3)) //if user choice is not a valid option let him choose again
+		{
+			puts("The option you choose isnt listed above, please try again");
+			puts("Please choose your prefered option");
+			scanf_s("%d", &userChoice);
+		}
+		switch (userChoice)
+		{
+		case 1: //login menu for user
+		{
+			clientLogIN();
+			break;
+		}
+		case 2: //user register
+		{
+			clientRegister();
+			break;
+		}
+		case 3: //return to main menu
+		{
+			puts("Back to main menu");
+			exitFlag = 0;
+			break;
+		}
+		default:
+		{break; }
+		}
+	}
+}
+
+//the menu presented with actions for the client after he logged in
+void clientOptionsMenu(char* fullName, char* id)
+{
+	int exitFlag = 1;//indicate if the client wants to exit
+	int userChoice;//the client choice from the menu
+	printf("Hello %s\n", fullName);
+	while (exitFlag)
+	{
+		puts("----------------------------------------------------");
+		puts("1. Book an appointment with a doctor");
+		puts("2. Cancel an appointment");
+		puts("3. Watch all my future appointments");
+		puts("4. Log out");
+		puts("----------------------------------------------------");
+		scanf_s("%d", &userChoice);
+		while (userChoice < 1 || userChoice > 4)//if the client choice isnt valid
+		{
+			puts("The option you choose isnt listed above, please try again");
+			puts("Please choose your prefered option");
+			scanf_s("%d", &userChoice);//ask him to choose again
+		}
+		switch (userChoice)
+		{
+		case 1://Book an appointment with a doctor
+		{
+			bookAppointment(id);
+			break;
+		}
+		case 2://Cancel an appointment
+		{
+			cancelAppointment(id);
+			break;
+		}
+		case 3://Watch all my future appointments
+		{
+			watchFutureAppointments(id);
+			break;
+		}
+		case 4://Log out
+		{
+			exitFlag = 0;
+			puts("Log out");
+			break;
+		}
+		default:
+			break;
+		}
+	}
+}
+
 //gets the client info and adds him to the database
 void clientRegister()
 {
