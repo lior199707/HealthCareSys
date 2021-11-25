@@ -54,6 +54,37 @@ void doctorLogIn()
 
 }
 
+//gets the id of the doctor who is logged in to the system and ask him to choose a date, than prints to the screen the 
+//list of appointments the doctor have on the desired date
+void watchMeetingsByDate(char* id)
+{
+	int dayChoice = chooseDate();//get the day from the doctor
+	char* columnName = colNameInDocTableByDate(dayChoice);//returns the column name in the chart of doctors that matches the desired date
+	char* errmsg = NULL;
+	char query[500] = "";
+	sqlite3* db;
+	sqlite3_stmt* stmt;
+	sprintf(query, "SELECT %s FROM doctorInfo where id = %s", columnName, id);//prepare query with wanted variables
+	sqlite3_open("doctorDb.db", &db);//open the doctor db for reading
+	sqlite3_prepare_v2(db, query, -1, &stmt, 0);//execute the query
+	const unsigned char* availableAndNot = NULL;
+	sqlite3_step(stmt);
+	availableAndNot = sqlite3_column_text(stmt, 0);//gets the string of the available and not available time on the desired date from the doctors chart
+	printf("The list of appointments on %d/02:\n", dayChoice);
+	if (!strcmp(availableAndNot, "Blocked"))//if day is blocked
+		puts("You blocked said day to appointments");
+	else //if day is not blocked
+	{
+		char* bookedStr = getBookedAppointmentsList(availableAndNot);//free in the end free(booked)
+		if (!strcmp(bookedStr, "taken:"))//if nothing appears after 'taken:', means there are no appointments on this day
+			puts("there are no appointments");
+		else//if there are appointments booked by clients
+			printByComa(6, bookedStr, 3);//print them
+	}
+	sqlite3_finalize(stmt);
+	sqlite3_close(db);
+}
+
 //returns the chosen medical field by the doctor, a valid medical field must be one of follows:
 //"Allergy and immunology", "Dermatology", "Family medicine", "Neurology","Pathology", "Psychiatry", "Surgery", "Urology";
 char* getMedicalField()
