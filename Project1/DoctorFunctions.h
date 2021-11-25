@@ -5,6 +5,7 @@ void doctorRegister();//gets the doctor full name, id,password,gender,medical fi
 void doctorLogIn();//gets the doctor id and password and checks if exists in the db
 char* getMedicalField();//gets the medical filed of the doctor from an existing list of medical fields
 char* getListOfTurns();//gets the start hour and finish hour of a doctors day of work min hour is 08:00 and max hour is 22:00,gets also the time between meetings in minutes(15 or 30 or 60)
+void addDoctorToDb(char* id, char* pass, char* fullName, char* medicalField, char* title, char* gender, char* listOfHours);//adds a doctor with all his detaild to the db
 int chooseDate();//return the int that represents the day in february the user chose
 char* colNameInDocTableByDate(int day);//gets a day in february and returns the string that represents it in the doctors db columns
 void printAllBlockedDates(const char* str);//prints all blocked dates of a doctor to the screen

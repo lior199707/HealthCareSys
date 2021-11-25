@@ -126,6 +126,46 @@ char* getListOfTurns()
 	return createListOfHours(atoi(startHour), atoi(endHour), timeBetweenMeetings);//returns the list of appointment hours by the start, end times and the difference between meetings
 }
 
+//adds a doctor with all his details to the doctor db
+void addDoctorToDb(char* id, char* pass, char* fullName, char* medicalField, char* title, char* gender, char* listOfHours)
+{
+	char* errmsg = NULL;
+	char query[20000] = "";
+	char* finalGender = NULL;
+	sqlite3* db;
+	sqlite3_stmt* stmt;
+	sqlite3_open("doctorDb.db", &db);
+	int rc = sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS doctorInfo(id TEXT UNIQUE,password TEXT, full_name Text, medical_field TEXT,"
+		"title TEXT, gender TEXT, original_list_of_hours TEXT, one TEXT,"
+		"two TEXT, three TEXT, four TEXT, five Text, six Text, seven Text,"
+		"eight Text , nine Text, ten Text, eleven Text, twelve Text, thirteen Text,"
+		"fourteen Text,fifteen Text,sixteen Text,seventeen Text,eighteen Text,nineteen Text,"
+		"twenty Text,twenty_one Text,twenty_two Text,twenty_three Text,twenty_four Text,twenty_five Text,"
+		" twenty_six Text,twenty_seven Text,twenty_eight Text,blocked_dates TEXT);", NULL, NULL, errmsg);
+	if (rc != SQLITE_OK)
+		printf("Error: %s\n", errmsg);
+	if (gender == 'M')
+		finalGender = "Male";
+	else
+		finalGender = "Female";
+	//prepears the query with the variables
+	sprintf(query, "INSERT INTO doctorInfo VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',"
+		"'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',"
+		"'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',"
+		"'%s','%s','%s','%s','%s','NULL');", id, pass, fullName, medicalField, title, finalGender, listOfHours,
+		listOfHours, listOfHours, listOfHours, listOfHours, listOfHours, listOfHours, listOfHours,
+		listOfHours, listOfHours, listOfHours, listOfHours, listOfHours, listOfHours, listOfHours,
+		listOfHours, listOfHours, listOfHours, listOfHours, listOfHours, listOfHours, listOfHours,
+		listOfHours, listOfHours, listOfHours, listOfHours, listOfHours, listOfHours, listOfHours);
+
+	rc = sqlite3_exec(db, query, NULL, NULL, &errmsg);//make insertion query
+	if (rc != SQLITE_OK)//if an error occured
+		printf("Error: %s\n", errmsg);
+	else
+		puts("You are successfuly registered to the system");
+	sqlite3_close(db);
+}
+
 
 //returns the date in February the user chose as an int
 int chooseDate()
