@@ -343,7 +343,18 @@ char* createListOfHours(int startHour, int endHour, int timeBetweenMeetings)
 	strcat(result, "*taken:");//add '*taken:' to the string 
 	return toString(result);
 }
-
+//checks if a title is valid, a valid title can be one of follows: Mr. , Ms. , Doc. , Doctor
+//if the title is valid returns 1 otherwise returns 0
+int isTitleValid(const char* title)
+{
+	char mr[] = "Mr.";
+	char ms[] = "Ms.";
+	char doc[] = "Doc.";
+	char doctor[] = "Doctor";
+	if ((!(strcmp(title, mr))) || (!(strcmp(title, ms))) || (!(strcmp(title, doc))) || (!(strcmp(title, doctor))))
+		return 1;
+	return 0;
+}
 //after an appointment was booked changes the string that represents the  available times and taken times, returns a new 
 //string regards to the new appointment time, removes the new time from the available times and adds it to the taken times 
 //:param time: the time to remove from the available times list and add to the not available list
