@@ -302,6 +302,34 @@ char* getOnlyAvailableTimesList(char* availableAndNot)
 	availableTimes[index] = '\0';
 	return toString(availableTimes);
 }
+//checks if a date appears in the blocked dates list of a doctor, if appears return 1 otherwise returns 0
+//list of blocked dates looks like: 1,3,21,28,....
+int isDateAppearInBlockDateList(char* blockDateList, int date)
+{
+	if (!strcmp(blockDateList, "NULL"))//if there are no blocked dates
+		return 0;
+	char buffer[3] = "";
+	int bufferIndex = 0;//he index to write to in buffer
+	int currDate = 0;
+	int size = strlen(blockDateList);
+	for (int i = 0; i < size; i++)
+	{
+		if (blockDateList[i] == ',')//if we got to the end of the date, means buffer contains the final date
+		{
+			currDate = atoi(buffer);//store the current date as an integer
+			strcpy(buffer, "");//empty the buffer
+			bufferIndex = 0;//set the index to write to, to 0
+			if (currDate == date)//if found a match
+				return 1;
+		}
+		else//if the date isnt finished yet(we didnt saw the coma yet) keep coping it to the buffer
+		{
+			buffer[bufferIndex] = blockDateList[i];
+			bufferIndex++;
+		}
+	}//if didnt found a match at all
+	return 0;
+}
 
 //creates the string of the doctor's list of hours by: start hour,end hour and difference of time between meetings
 char* createListOfHours(int startHour, int endHour, int timeBetweenMeetings)
