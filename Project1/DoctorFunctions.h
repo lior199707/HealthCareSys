@@ -13,6 +13,7 @@ void tryBlockingDate(char* id);//if the day is blockable(wasnt blocked already,h
 void addDateToBlockedList(int day, char* id);//after a date was blocked adds the number of the date to the blocked dates column in the doctor db 
 char* getBookedAppointmentsList(const char* str);//gets a string that contains the available times and taken times on a specific day and retunrs only the string of the booked appointments a doctor has
 char* getOnlyAvailableTimesList(char* availableAndNot);//gets the string of available times and not available times a doctor has in a certain date and returns only the available ones
+int isDateAppearInBlockDateList(char* blockDateList, int date);//gets an int that represents a day in february and checks if he exists in the blocked dates list in the doctor db
 char* createListOfHours(int startHour, int endHour, int timeBetweenMeetings);//get the start hour, end hour and time between meetings and creates the list of appointments for the doctor
 int isTitleValid(const char* title);//checks if a title of a doctor is valid, a valid title is a title that exists in the list of titles the system holds
 int isHourValid(const char* startHour, const char* endHour);//gets the start hour and end hour, checks that their formation matches to an hour formation and checks the start hour is previous to the end hour
