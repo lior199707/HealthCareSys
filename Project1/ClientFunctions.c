@@ -387,3 +387,28 @@ int numOfComasForAppointmentCancelation(char* tempAllAppointmentsList, char* tem
 	return -1;//if didnt found an appointments that matches the client appointment to cancel
 }
 
+//prints all the available times for meetings of the chosen doctor on the chosen date, returns the time the user chooses 
+char* chooseTimeForAppointment(char* docId, char* chosenDate, char* dateInDocDb)
+{
+	char chosenTime[100] = "";
+	char* availableAndNot = GetDetailsFromDb(dateInDocDb, "doctorDb.db", "doctorInfo", docId);//gets the list of available and not available times on the chosen date
+	char* availableTimes = getOnlyAvailableTimesList(availableAndNot);//gets only the available times list from the available and not string
+	if (!strcmp(availableTimes, ""))//if there are no available times on this date 
+	{
+		puts("there are no available times on this date");
+		return NULL;
+	}
+	//if there are available time slots
+	puts("\nYou are about to enter the time you want to schedule the appointment in\n");
+	printf("Here is the available times list on the %s\n", chosenDate);
+	puts(availableTimes);//print the list of available times
+	puts("\nPlease choose a time from the list above");
+	getchar();
+	gets(chosenTime);//get the chosen time from the client
+	while (!isChosenTimeValid(chosenTime, availableTimes))//if the cfhosen time is not valid
+	{
+		gets(chosenTime);//get it from the client again
+	}
+	return toString(chosenTime);
+}
+

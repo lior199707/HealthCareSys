@@ -16,6 +16,6 @@ void watchFutureAppointments(char* id);//prints the client future appointments t
 char* chooseDocIdByField(char* medicalField);//get the id of the doctor the client want to book an appointment with
 char* createNewAllAppointmentsListByComa(char* AllAppointmentsList, int numOfComaToDel);//gets the future appoinmtnet list of the client and returns the list without the appointment to cancel by the index of the coma to delete
 int numOfComasForAppointmentCancelation(char* tempAllAppointmentsList, char* tempAppointmentToCancel);//return the number of comas has passed untill found the appointment to cancel,if wasnt found return -1
-
+char* chooseTimeForAppointment(char* docId, char* chosenDate, char* dateInDocDb);//get the time the client wants to schedule an appointment in
 
 #endif // !CLIENTFUNCTIONS_H
