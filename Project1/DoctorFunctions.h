@@ -6,6 +6,8 @@ void doctorMenu();//login/register menu of a doctor
 void doctorRegister();//gets the doctor full name, id,password,gender,medical field,title and the work hours (start hour and finish hour) and adds the doctor to the db
 void doctorLogIn();//gets the doctor id and password and checks if exists in the db
 void watchMeetingsByDate(char* id);//gets the number of the day in february from the doctor and prints him all his appointments on said day 
+char getGender();//gets the gender of the doctor, M or F
+char* getTitle();//gets the title of the doctor from an existing list of titles
 char* getMedicalField();//gets the medical filed of the doctor from an existing list of medical fields
 char* getListOfTurns();//gets the start hour and finish hour of a doctors day of work min hour is 08:00 and max hour is 22:00,gets also the time between meetings in minutes(15 or 30 or 60)
 void addDoctorToDb(char* id, char* pass, char* fullName, char* medicalField, char* title, char* gender, char* listOfHours);//adds a doctor with all his detaild to the db

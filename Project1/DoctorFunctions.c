@@ -264,6 +264,46 @@ void watchMeetingsByDate(char* id)
 	sqlite3_close(db);
 }
 
+//retruns the gender, M for male and F for female
+char getGender()
+{
+	char gender;
+	puts("Plese enter your gender, use only upper letters, enter: 'M' for male or 'F' for female");
+	scanf_s("%c", &gender);
+	while ((gender != 'M') && (gender != 'F'))
+	{
+		puts("The gender you entered is not valid, please try again");
+		getchar();
+		scanf_s("%c", &gender);
+	}
+	getchar();
+	return gender;
+}
+
+//returns the chosen title by the doctor, a valid title must be one of the following:Mr.,Ms.,Doc.,Doctor
+char* getTitle()
+{
+	char title[MAXSIZE];
+	int titleValid = 0;
+	char* resultTitle = NULL;
+	puts("Please enter your title, a legal title should be one of follows(dont forget to add a period in the end):");
+	puts("* Mr.");
+	puts("* Ms.");
+	puts("* Doc.");
+	puts("* Doctor");
+	gets(title);//gets the title from the user
+	titleValid = isTitleValid(title);//check if the title is valid
+	while (!titleValid)//as long as the title is not valid
+	{
+		puts("The title you entered is not valid");
+		puts("Please enter your title again, according to the rules above");
+		gets(title);//get the title again from the user
+		titleValid = isTitleValid(title);//and check if it valid again
+	}
+	resultTitle = toString(title);
+	return resultTitle;
+}
+
 //returns the chosen medical field by the doctor, a valid medical field must be one of follows:
 //"Allergy and immunology", "Dermatology", "Family medicine", "Neurology","Pathology", "Psychiatry", "Surgery", "Urology";
 char* getMedicalField()
