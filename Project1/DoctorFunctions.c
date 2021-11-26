@@ -264,7 +264,7 @@ void watchMeetingsByDate(char* id)
 	sqlite3_close(db);
 }
 
-//retruns the gender, M for male and F for female
+//returns the gender, M for male and F for female
 char getGender()
 {
 	char gender;
@@ -344,14 +344,14 @@ char* getListOfTurns()
 {
 	char startHour[MAXSIZE];
 	char endHour[MAXSIZE];
-	int hoursValid = 0;//indicate if start and end hours are valid
+	int hoursValid = 0;//indicates if start and end hours are valid
 	int timeBetweenMeetings;
 	puts("You are about to enter the hour you want to start work at and the hour you want to finish work at, a valid start/end hour should be later than 08:00 and less than 22:00");
 	puts("the hour you will enter should be in this formation: xy:00, x,y represent numbers between 0 and 9");
 	puts("Keep in mind, the start hour should be before the finish hour");
 	puts("Please enter your start hour:");
 	getchar();
-	gets(startHour);//get teh start hour
+	gets(startHour);//get the start hour
 	puts("Please enter your end hour:");
 	gets(endHour);//get the end hour
 	hoursValid = isHourValid(startHour, endHour);//check if the hours are valid
@@ -398,7 +398,7 @@ void addDoctorToDb(char* id, char* pass, char* fullName, char* medicalField, cha
 		finalGender = "Male";
 	else
 		finalGender = "Female";
-	//prepears the query with the variables
+	//prepars the query with the variables
 	sprintf(query, "INSERT INTO doctorInfo VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',"
 		"'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',"
 		"'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',"
@@ -477,7 +477,7 @@ void openBlockedDate(char* id)
 	char* colField = GetDetailsFromDb(colName, "doctorDb.db", "doctorInfo", id);//returns string in the field of the chosen column in the chart
 	if (!strcmp(colField, "Blocked")) //if the day is blocked
 	{
-		//set the filed to be the original_list_of_hours
+		//set the filled to be the original_list_of_hours
 		char* originalListOfHours = GetDetailsFromDb("original_list_of_hours", "doctorDb.db", "doctorInfo", id);
 		EditDetailsInDb(colName, originalListOfHours, "doctorDb.db", "doctorInfo", id);
 		//erase it from the blocked_dates
@@ -498,7 +498,7 @@ void openBlockedDate(char* id)
 	free(colField);
 }
 
-//print all the doctors from the wanted medical field to the screen by this format: "ID: Name: Gneder:", 
+//prints all the doctors from the wanted medical field to the screen by this format: "ID: Name: Gneder:", 
 //returns a list of all the id's of the doctors from the wanted medical field : id1,id2,id3...
 char* getListOfDoctorsByMedicalField(char* medicalField)
 {

@@ -18,7 +18,7 @@ void openBlockedDate(char* id);//gets a day the doctor wants to reopen, if the c
 char* getListOfDoctorsByMedicalField(char* medicalField);//returns a string of the ID's of the doctor from the wanted medical field separeted by comas and prints their IDs names and gender to the screen
 void tryBlockingDate(char* id);//if the day is blockable(wasnt blocked already,has no appointments yet) changed the value of the field to "Blocked", otherwise prints a proper masssage to the srcreen
 void addDateToBlockedList(int day, char* id);//after a date was blocked adds the number of the date to the blocked dates column in the doctor db 
-char* getBookedAppointmentsList(const char* str);//gets a string that contains the available times and taken times on a specific day and retunrs only the string of the booked appointments a doctor has
+char* getBookedAppointmentsList(const char* str);//gets a string that contains the available times and taken times on a specific day and returns only the string of the booked appointments a doctor has
 char* getOnlyAvailableTimesList(char* availableAndNot);//gets the string of available times and not available times a doctor has in a certain date and returns only the available ones
 int isDateAppearInBlockDateList(char* blockDateList, int date);//gets an int that represents a day in february and checks if he exists in the blocked dates list in the doctor db
 char* createListOfHours(int startHour, int endHour, int timeBetweenMeetings);//get the start hour, end hour and time between meetings and creates the list of appointments for the doctor
