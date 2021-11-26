@@ -603,13 +603,13 @@ char* getBookedAppointmentsList(const char* str)
 	}
 	return toString(bookedAppointments);
 }
-//gets the doctors's string of the available and not available times for appointment, returnsonlt the available times list 
+//gets the doctors's string of the available and not available times for appointment, returns all the available times list 
 char* getOnlyAvailableTimesList(char* availableAndNot)
 {
 	char availableTimes[MAXSIZE] = "";
 	int  size = strlen(availableAndNot);
 	int index = 0;
-	while (availableAndNot[index] != '*')//as long as we didnt reach to the '*' keep coping fron the available and not string
+	while (availableAndNot[index] != '*')//as long as we didnt reach to the '*' keep copping fron the available and not string
 	{
 		availableTimes[index] = availableAndNot[index];
 		index++;
