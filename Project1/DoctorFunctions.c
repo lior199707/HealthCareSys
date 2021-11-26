@@ -632,7 +632,8 @@ int isDateAppearInBlockDateList(char* blockDateList, int date)
 		if (blockDateList[i] == ',')//if we got to the end of the date, means buffer contains the final date
 		{
 			currDate = atoi(buffer);//store the current date as an integer
-			strcpy(buffer, "");//empty the buffer
+			//strcpy(buffer, "");//empty the buffer//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			memset(buffer, '\0', 3);//empty the buffer
 			bufferIndex = 0;//set the index to write to, to 0
 			if (currDate == date)//if found a match
 				return 1;
