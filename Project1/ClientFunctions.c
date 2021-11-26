@@ -412,3 +412,53 @@ char* chooseTimeForAppointment(char* docId, char* chosenDate, char* dateInDocDb)
 	return toString(chosenTime);
 }
 
+//creates a temporary sting with the appointments list of the client,uses only the ID of the doctor, the dates
+//and the times of the appointments, the format of the string: docID*Date*Time,docID2*Date2*Time2,..
+//the all appointmets list format: docId docName docGender Date Time,docId2 docName2 docGender2 Date2 Time2,...
+//each coma represents the start of a new appointment
+char* createTempAppointmentsList(char* allAppointmentsList)
+{
+	int numOfSpaces = 0;//the number of spaces we passed in every different appointment
+	int size = strlen(allAppointmentsList);
+	char finalBuffer[MAXSIZE] = "";
+	int finalBufferIndex = 0;
+	for (int i = 0; i < size; i++)
+	{
+		if (allAppointmentsList[i] == ',')//means we iterate on a new appointment 
+		{
+			strcat(finalBuffer, ",");//close the previous appointment
+			finalBufferIndex++;
+			numOfSpaces = 0;//sets the number of spaces we saw to 0
+			continue;//go to the next appointment
+		}
+		else if (allAppointmentsList[i] == ' ')//if we saw a sapce
+		{
+			numOfSpaces++;
+			if (numOfSpaces == 0 || numOfSpaces == 4 || numOfSpaces == 5)//if its the end of the ID the date or the time in the all appointments str
+			{
+				finalBuffer[finalBufferIndex] = '*';//add a '*' to close it
+				finalBufferIndex++;
+			}
+			continue;
+		}
+		else if (numOfSpaces == 0 || numOfSpaces == 4 || numOfSpaces == 5)//if its not a space or a coma and we run on the ID the date or the time in the all appointments str 
+		{
+			finalBuffer[finalBufferIndex] = allAppointmentsList[i];//copy it
+			finalBufferIndex++;
+		}
+	}
+	return toString(finalBuffer);
+}
+
+//creates a temporary string of the appointment to cancel with the information given by the client
+//the format of the temporary string: docId*Date*Time
+char* createTempAppointmentToCancle(char* docId, char* dateForAppointment, char* timeForAppointment)
+{
+	char buffer[MAXSIZE] = "";
+	strcat(buffer, docId);
+	strcat(buffer, "*");
+	strcat(buffer, dateForAppointment);
+	strcat(buffer, "*");
+	strcat(buffer, timeForAppointment);
+	return toString(buffer);
+}
