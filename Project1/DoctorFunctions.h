@@ -24,5 +24,6 @@ int isTitleValid(const char* title);//checks if a title of a doctor is valid, a 
 int isHourValid(const char* startHour, const char* endHour);//gets the start hour and end hour, checks that their formation matches to an hour formation and checks the start hour is previous to the end hour
 void editAvailableAndNotStrAfterBooking(char* colNameInDb, char* docId, char* time);//after an appointment was booked changes the string that represents the  available times and taken times, returns a new string regards to the new appointment time, removes the new time from the available times and adds it to the taken times 
 void editAvailableAndNotStrAfterCancelation(char* colNameInDb, char* docId, char* time);//after an appointment was canceled changes the string that represents the  available times and taken times, returns a new string regards to the canceled appointment time, removes the canceled time from the taken times and adds it to the available times
-
+void doctorOptionsMenu(char* fullName, char* id);//the doctor options menu after he logged in
+void EditProfileMenu(char* id);//the options menu to edit a doctor profile
 #endif // !DOCTORFUNCTIONS_H
