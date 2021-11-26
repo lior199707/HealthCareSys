@@ -412,6 +412,34 @@ char* chooseTimeForAppointment(char* docId, char* chosenDate, char* dateInDocDb)
 	return toString(chosenTime);
 }
 
+//checks if the chosen time for a mmeting is valid base on 2 things, the format of a time(xy:qw) and his appearence
+//in the string of available times list, if the chosen time is valid return 1, otherwise returns 0
+int isChosenTimeValid(char* str, char* availabeTimesList)
+{
+	int size = strlen(str);
+	if (size != 5)//if the size of the string time is not 5 the forma isnt valid
+	{
+		puts("the time you chose isnt valid, please try again");
+		return 0;
+	}
+
+	for (int i = 0; i < size; i++)//if it contains a coma it can mess with the substring check because the string od available times is: 12:00,13:00,14:00...
+	{
+		if (str[i] == ',')
+		{
+			puts("the time you chose isnt valid, please try again");
+			return 0;
+		}
+
+	}
+	if (strstr(availabeTimesList, str) == NULL) //if the chosen time doesnt appear in the available times list
+	{
+		puts("the time you chose doesnt appear in the available times list, please try again");
+		return 0;
+	}
+	return 1;
+}
+
 //creates a temporary sting with the appointments list of the client,uses only the ID of the doctor, the dates
 //and the times of the appointments, the format of the string: docID*Date*Time,docID2*Date2*Time2,..
 //the all appointmets list format: docId docName docGender Date Time,docId2 docName2 docGender2 Date2 Time2,...
