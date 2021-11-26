@@ -1,5 +1,184 @@
 #include "DoctorFunctions.h"
 #include "MutualFunctions.h"
+
+
+
+//doctor register/login menu
+void doctorMenu()
+{
+	int exitFlag = 1;//indicates if the user wants to leave the program
+	int userChoice;//the choice from the menu
+	while (exitFlag)
+	{
+		puts("----------------------------------------------------");
+		puts("Doctors Menu:\n");
+		puts("1. Login");
+		puts("2. Register");
+		puts("3. Back to main menu");
+		puts("----------------------------------------------------");
+		puts("If you already have an account please login otherwise register");
+		puts("Please choose your prefered option");
+		scanf_s("%d", &userChoice);
+		while ((userChoice < 1) || (userChoice > 3)) //if user choice is not a valid option let him choose again
+		{
+			puts("The option you chose isnt listed above, please try again");
+			puts("Please choose your prefered option");
+			scanf_s("%d", &userChoice);
+		}
+		switch (userChoice)
+		{
+		case 1: //login menu for doctor
+		{
+			doctorLogIn();
+			break;
+		}
+		case 2: //doctor register
+		{
+			doctorRegister();
+			break;
+		}
+		case 3: //return to main menu
+		{
+			exitFlag = 0;
+			break;
+		}
+		default:
+		{break; }
+		}
+	}
+}
+
+//the menu presented to the doctor after he logged in
+void doctorOptionsMenu(char* fullName, char* id)
+{
+	int exitFlag = 1;//indicate the doc wants to exit the menu
+	int userChoice;//the doc choice
+	printf("Hello doctor %s\n", fullName);
+	free(fullName);
+	while (exitFlag)
+	{
+		puts("----------------------------------------------------");
+		puts("1. Watch all meeting by date");
+		puts("2. Block a date for appointments");
+		puts("3. Edit profile");
+		puts("4. open blocked date for appointments");
+		puts("5. Watch all blocked appointments");
+		puts("6. Log out");
+		puts("----------------------------------------------------");
+		scanf_s("%d", &userChoice);
+		while (userChoice < 1 || userChoice > 6)//if the doc choses an invalid option
+		{
+			puts("The option you choose isnt listed above, please try again");
+			puts("Please choose your prefered option");
+			scanf_s("%d", &userChoice);
+		}
+		switch (userChoice)
+		{
+		case 1://Watch all meeting by date
+		{
+			watchMeetingsByDate(id);
+			break;
+		}
+		case 2://Block a date for appointments
+		{
+			tryBlockingDate(id);
+			break;
+		}
+		case 3://Edit profile
+		{
+			EditProfileMenu(id);
+			break;
+		}
+		case 4://open blocked date for appointments
+		{
+			openBlockedDate(id);
+			break;
+		}
+		case 5://Watch all blocked appointments
+		{
+			char* blockedDatesStr = GetDetailsFromDb("blocked_dates", "doctorDb.db", "doctorInfo", id);
+			printAllBlockedDates(blockedDatesStr);
+			free(blockedDatesStr);
+			break;
+		}
+		case 6://Log out
+		{
+			exitFlag = 0;
+			puts("Loged out");
+			break;
+		}
+		default:
+			break;
+		}
+	}
+}
+
+
+//this menu presents the doctor options for editing his profile, a doctor can edit his: full name, title,medical field,gender
+void EditProfileMenu(char* id)
+{
+	int exitFlag = 1;
+	int userChoice;
+	char* newThing = NULL;
+	while (exitFlag)
+	{
+		puts("----------------------------------------------------");
+		puts("1. Edit full name");
+		puts("2. Edit title");
+		puts("3. Edit medical field");
+		puts("4. Edit gender");
+		puts("5. Return to doctor options menu");
+		puts("----------------------------------------------------");
+		scanf_s("%d", &userChoice);//gets the doctor choice
+		while (userChoice < 1 || userChoice > 5)//if the choice isnt valid
+		{
+			puts("The option you choose isnt listed above, please try again");
+			puts("Please choose your prefered option");
+			scanf_s("%d", &userChoice);//get it again
+		}
+		switch (userChoice)
+		{
+		case 1://Edit full name
+		{
+			newThing = getName();//get the ned name
+			EditDetailsInDb("full_name", newThing, "doctorDb.db", "doctorInfo", id);
+			break;
+		}
+		case 2://Edit title
+		{
+			newThing = getTitle();//get the new title
+			EditDetailsInDb("title", newThing, "doctorDb.db", "doctorInfo", id);
+			break;
+		}
+		case 3://Edit medical field
+		{
+			newThing = getMedicalField();//get the new medical field
+			EditDetailsInDb("medical_field", newThing, "doctorDb.db", "doctorInfo", id);
+			break;
+		}
+		case 4://Edit gender
+		{
+			getchar();
+			char c = getGender();//get the new gender
+			if (c == 'M')
+				EditDetailsInDb("gender", "Male", "doctorDb.db", "doctorInfo", id);
+			else
+				EditDetailsInDb("gender", "Female", "doctorDb.db", "doctorInfo", id);
+			break;
+		}
+		case 5://exit
+		{
+			exitFlag = 0;
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	free(newThing);
+}
+
+
 //gets all the information of a doctor and adds it to the data base
 void doctorRegister()
 {
