@@ -71,6 +71,122 @@ void startMenu()
 	}
 }
 
+//gets the full name from the user, and checks if the name is valid, a valid name consists of only letters
+char* getName()
+{
+	char fullName[MAXSIZE];
+	int nameValid = 0;//indicates if the name is valid
+	char* name = NULL;
+	puts("Please enter your full Name, a valid full name consists of only letters and spaces");
+	getchar();
+	gets(fullName);//gets the full name from the user
+	nameValid = isNameValid(fullName);//checks if the name is valid
+	while (!nameValid) //as long as the name isnt valid
+	{
+		puts("The name you entered is not valid");
+		puts("Please enter your name again");
+		//getchar();
+		gets(fullName);//take it again from the user
+		nameValid = isNameValid(fullName);
+	}
+	name = toString(fullName);
+	return name;
+}
+
+// gets the id of the use, checks if the id is valid, a valid id consists of exactly 9 digits and the first degit cnat be 0
+char* getId()
+{
+	char Id[MAXSIZE];
+	int IdValid;//indicates if the id is valid
+	char* id = NULL;
+	puts("Please enter the ID, a valid id consists of 9 numbers and the first digit cant be 0");
+	//getchar();
+	gets(Id);//get the id from the user
+	IdValid = isIdValid(Id);//check if id is valid
+	while (!IdValid)//as long as not valid
+	{
+		puts("The ID you entered is not valid");
+		puts("Please enter the ID again");
+		//getchar();
+		gets(Id);//get the id again from the user
+		IdValid = isIdValid(Id);//andcheck if its valid
+	}
+	id = toString(Id);
+	return id;
+}
+
+//gets the password of the user,and checks if its valid, a valid pass contains at least: 1 upper, 1 lowwer and 1 digit and has at least 6 chars
+char* getPass()
+{
+	char password[MAXSIZE];
+	int passValid;//indicates if the password is valid
+	char* pass = NULL;
+	puts("Please enter your password, a legal password contains:");
+	puts("* At least 6 digits");
+	puts("* At least one capital letter");
+	puts("* At least one lowwer letter");
+	puts("* At least one number");
+	gets(password);//get teh password from the user
+	passValid = isPassValid(password);
+	while (!passValid)//as long as the password is not valid
+	{
+		puts("The password you entered is not valid");
+		puts("Please enter your password again, according to the rules above");
+		gets(password);//get the password again from the user
+		passValid = isPassValid(password);//check if its valid
+	}
+	pass = toString(password);
+	return pass;
+}
+
+//checks if a name is valid, a valid name contains only letters and spaces 
+int isNameValid(char* name)
+{
+	int size = strlen(name);
+	if (size == 0)//a name cant be empty
+		return 0;
+	for (int i = 0; i < size; i++) //run on all the name
+		if (((name[i] < 'A') && (name[i] != ' ')) || (name[i] > 'z') || ((name[i] > 'Z') && (name[i] < 'a')))//if found a char that isnt a letter or a space
+			return 0;//indicates its illegal
+	return 1;//leggal
+}
+
+
+//checks id the id is valid, a valid id contains exactly 9 digits and the first digit cant be 0
+int isIdValid(char* id)
+{
+	int size = strlen(id);
+	if ((id[0] == '0') || (size != 9))//if the first letter is 0 or the number of digits isnt 9
+		return 0;//indicate its illegal
+	for (int i = 0; i < size; i++)//run on all the id
+		if ((id[i] < '0') || (id[i] > '9'))//if there is a char that isnt a number
+			return 0;//indicate its illegal
+	return 1;//leggal
+}
+
+//checks if the pass is valid, a valid pass contains at least: 1 upper, 1 lowwer and 1 digit and has at least 6 chars
+int isPassValid(char* pass)
+{
+	int numOfUpper = 0;//num of upper letters
+	int numOfLowwer = 0;//num of lowwer letters
+	int numOfDigits = 0;
+	int minimumSize = 6;
+	int size = strlen(pass);
+	if (size < minimumSize)//if has less than 6 chars
+		return 0;
+	for (int i = 0; i < size; i++)//run on all the string and count the loower,upper and digits
+	{
+		if ((pass[i] >= 'a') && (pass[i] <= 'z'))//if its a lowwer letter
+			numOfLowwer += 1;
+		else if ((pass[i] >= 'A') && (pass[i] <= 'Z'))//if its an upper letter
+			numOfUpper += 1;
+		else if ((pass[i] >= '0') && (pass[i] <= '9'))//if its a digit
+			numOfDigits += 1;
+	}
+	if ((numOfDigits >= 1) && (numOfLowwer >= 1) && (numOfUpper >= 1))//if the password is valid
+		return 1;
+	return 0;
+}
 
 
 
