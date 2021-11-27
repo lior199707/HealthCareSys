@@ -219,7 +219,9 @@ char* detailsExistsInDb(const char* dbName, const char* id, const char* password
 		tableName = "clientInfo";//the name of the table is clientInfo
 	sprintf(query, "SELECT id,password,full_name FROM %s", tableName);//prepare the query with variables
 	sqlite3_open(dbName, &db);//open the wanted db
-	sqlite3_prepare_v2(db, query, -1, &stmt, 0);//execute the query
+	int rc = sqlite3_prepare_v2(db, query, -1, &stmt, 0);//execute the query
+	if (rc != SQLITE_OK)//if there are no registered users from type doc/client 
+		return toString("tableIsEmpty");
 	const unsigned char* currId = NULL;
 	const unsigned char* currPassword = NULL;
 	const unsigned char* currFullName = NULL;

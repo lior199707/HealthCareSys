@@ -161,6 +161,11 @@ void clientLogIN()
 	puts("Please enter your password");
 	gets(password);//get the password from the user
 	fullName = detailsExistsInDb("clientDb.db", id, password);//return the full name of the client if the id and passwors exists in db  otherwise returns an empty string
+	if (!strcmp(fullName, "tableIsEmpty"))//if there are no registered doctors yet
+	{
+		puts("There are no clients registered to the system yet, please register");
+		return;
+	}
 	while (!strcmp(fullName, ""))//if the details as provided by the user doesnt exist in the db
 	{
 		remainingTries -= 1;

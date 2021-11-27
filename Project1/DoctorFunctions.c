@@ -211,6 +211,11 @@ void doctorLogIn()
 	puts("Please enter your password");
 	gets(password);//gets the doctor password
 	fullName = detailsExistsInDb("doctorDb.db", id, password);//if id and pass exist in db return the name of the doctor else return ""
+	if (!strcmp(fullName, "tableIsEmpty"))//if there are no registered doctors yet
+	{
+		puts("There are no doctors registered to the system yet, please register");
+		return;
+	}
 	while (!strcmp(fullName, ""))//if the details doesnt exist in the db, let the doctor to try inserting his id and pass again untill maximum 3 times
 	{
 		remainingTries -= 1;
