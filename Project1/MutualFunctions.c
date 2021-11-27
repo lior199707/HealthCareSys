@@ -232,7 +232,11 @@ char* detailsExistsInDb(const char* dbName, const char* id, const char* password
 	sqlite3_open(dbName, &db);//open the wanted db
 	int rc = sqlite3_prepare_v2(db, query, -1, &stmt, 0);//execute the query
 	if (rc != SQLITE_OK)//if there are no registered users from type doc/client 
+	{
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
 		return toString("tableIsEmpty");
+	}
 	const unsigned char* currId = NULL;
 	const unsigned char* currPassword = NULL;
 	const unsigned char* currFullName = NULL;

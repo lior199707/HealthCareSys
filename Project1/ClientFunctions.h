@@ -20,4 +20,5 @@ char* chooseTimeForAppointment(char* docId, char* chosenDate, char* dateInDocDb)
 int isChosenTimeValid(char* str, char* availabeTimesList);//check if the the time the client chose for the appointment is valid
 char* createTempAppointmentsList(char* allAppointmentsList);//gets the appointmnets list by doctor: id name gender date time and return a string :id*date*time
 char* createTempAppointmentToCancle(char* docId, char* dateForAppointment, char* timeForAppointment);//gets as an input the doctor id,the date and the time of the appointment to cancel and returns it in this format:id*date*time  
+int checkIfDocDbExists();
 #endif // !CLIENTFUNCTIONS_H

@@ -75,7 +75,8 @@ void clientOptionsMenu(char* fullName, char* id)
 		{
 		case 1://Book an appointment with a doctor
 		{
-			bookAppointment(id);
+			if(checkIfDocDbExists())
+				bookAppointment(id);
 			break;
 		}
 		case 2://Cancel an appointment
@@ -195,6 +196,12 @@ void bookAppointment(char* id)
 	char* dateBuffer[6];
 	char* medicalField = getMedicalField();//gets the wanted medical field from the client
 	char* docId = chooseDocIdByField(medicalField);//prints all the doctors from the chosen medical field in the db and returnd the ID of the chossen doctor
+	if (!strcmp(docId, "Empty"))//if here are no doctors from the chosen medical field yet 
+	{
+		free(medicalField);
+		free(docId);
+		return;
+	}
 	char* docName = GetDetailsFromDb("full_name", "doctorDb.db", "doctorInfo", docId);//returns the doctor's name by his id
 	char* docGender = GetDetailsFromDb("gender", "doctorDb.db", "doctorInfo", docId);//returns the doctor's gender by his id
 	int date = chooseDateForAppointmnent(docId);//print a list of all the blocked dates and asks the client to choose a date that isnt blocked
@@ -314,6 +321,12 @@ void watchFutureAppointments(char* id)
 char* chooseDocIdByField(char* medicalField)
 {
 	char* docIdList = getListOfDoctorsByMedicalField(medicalField);//prints to the screen the list of doctor from the chosen medical feild and returns a list of all their ID's
+	if (!strcmp(docIdList, ""))//if there are no doctors from the wanted medical field yet, the list is empty
+	{
+		puts("There are no doctors from the wanted medical field yet");
+		free(docIdList);
+		return toString("Empty");
+	}
 	puts("\nYou are about to enter the ID of the doctor you want to book an appointment with");
 	getchar();
 	char* id = getId();//gets the id of the doctor the client wants to schedule an appointment with
@@ -494,3 +507,44 @@ char* createTempAppointmentToCancle(char* docId, char* dateForAppointment, char*
 	strcat(buffer, timeForAppointment);
 	return toString(buffer);
 }
+
+int checkIfDocDbExists()
+{
+	char* errmsg = NULL;
+	char* tableName = "doctorInfo";
+	sqlite3* db;
+	sqlite3_stmt* stmt;
+	sqlite3_open("doctorDb.db", &db);//open the wanted db
+	char* query = "SELECT COUNT(*) FROM doctorInfo";
+	int rc = sqlite3_prepare_v2(db, query, -1, &stmt, 0);//execute the query
+	sqlite3_finalize(stmt);
+	sqlite3_close(db);
+	if (rc)//if there are no doctors in the db yet
+	{
+		puts("there are no doctors in the system yet");
+		return 0;
+	}
+	return 1;
+	
+	/* SQLiteDatabase database = this.getReadableDatabase();
+    long NoOfRows = DatabaseUtils.queryNumEntries(database,TableName);
+
+    if (NoOfRows == 0){
+        return true;
+    } else {
+        return false;
+    }
+}
+	*/
+}
+
+/*
+* int rc = sqlite3_prepare_v2(db, query, -1, &stmt, 0);//execute the query
+	if (rc != SQLITE_OK)//if there are no registered users from type doc/client 
+	{
+		puts("There are no doctors in the system yet");
+		return 0;
+	}	
+	return 1;
+	/*
+*/
