@@ -71,13 +71,13 @@ void startMenu()
 	}
 }
 
-//gets the full name from the user, and checks if the name is valid, a valid name consists of only letters
+//gets the full name from the user, and checks if the name is valid, a valid name consists of only letters and exactly one space
 char* getName()
 {
 	char fullName[MAXSIZE];
 	int nameValid = 0;//indicates if the name is valid
 	char* name = NULL;
-	puts("Please enter your full Name, a valid full name consists of only letters and spaces");
+	puts("Please enter your full Name, a valid full name consists of only letters and exactly spaces");
 	getchar();
 	gets(fullName);//gets the full name from the user
 	nameValid = isNameValid(fullName);//checks if the name is valid
@@ -139,14 +139,25 @@ char* getPass()
 	return pass;
 }
 
-//checks if a name is valid, a valid name contains only letters and spaces 
+//checks if a name is valid, a valid name contains only letters and exactly one space 
 int isNameValid(char* name)
 {
+	int numOfSpaces = 0;
 	int size = strlen(name);
 	if (size == 0)//a name cant be empty
 		return 0;
 	for (int i = 0; i < size; i++) //run on all the name
-		if (((name[i] < 'A') && (name[i] != ' ')) || (name[i] > 'z') || ((name[i] > 'Z') && (name[i] < 'a')))//if found a char that isnt a letter or a space
+	{
+		//if (((name[i] < 'A') && (name[i] != ' ')) || (name[i] > 'z') || ((name[i] > 'Z') && (name[i] < 'a')))//if found a char that isnt a letter
+		if ( (name[i] < 'A') || (name[i] > 'z') || ( (name[i] > 'Z') && (name[i] < 'a') ) )//if found a char that isnt a letter
+		{
+			if (name[i] == ' ')//if its a space
+				numOfSpaces++;
+			else//if its not a valid char
+				return 0;
+		}
+	}
+		if(numOfSpaces != 1)
 			return 0;//indicates its illegal
 	return 1;//leggal
 }

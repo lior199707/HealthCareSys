@@ -14,7 +14,7 @@ void startMenu();//this menu lets the user choose wether he is a client or a doc
 char* getName();//gets the name of the user
 char* getId();//gets the id of the user
 char* getPass();//gets the password of the user
-int isNameValid(char* name);//checks if the name is valid, a valid name contains only letters and spaces  
+int isNameValid(char* name);//checks if the name is valid, a valid name contains only letters and exactly one space 
 int isIdValid(char* id);//checks id the id is valid, a valid id contains exactly 9 digits and the first digit cant be 0
 int isPassValid(char* pass);//checks if the pass is valid, a valid pass contains at least: 1 upper, 1 lowwer and 1 digit and has at least 6 chars
 char* toString(const char* str);//returns a dynamical allocation of a char[] 
