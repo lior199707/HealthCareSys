@@ -262,7 +262,6 @@ void cancelAppointment(char* id)
 	printByComa(0, allAppointmentsList, 1);//print all the client's future appointments to the screen
 	//creater a temporary list from the future appointments list in this format: DocId1*Date1*Time1,DocId2*Date2*Time2
 	char* tempAllAppointmentsList = createTempAppointmentsList(allAppointmentsList);
-	puts(tempAllAppointmentsList);
 	getchar();
 	puts("Please enter the doctor ID");
 	char* docId = getId();//gets the doctor id of the appointment to cancel from the client
