@@ -77,7 +77,7 @@ char* getName()
 	char fullName[MAXSIZE];
 	int nameValid = 0;//indicates if the name is valid
 	char* name = NULL;
-	puts("Please enter your full Name, a valid full name consists of only letters and exactly spaces");
+	puts("Please enter your full Name, a valid full name consists of only letters and exactly one space");
 	getchar();
 	gets(fullName);//gets the full name from the user
 	nameValid = isNameValid(fullName);//checks if the name is valid

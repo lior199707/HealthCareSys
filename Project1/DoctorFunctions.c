@@ -140,18 +140,21 @@ void EditProfileMenu(char* id)
 		{
 		case 1://Edit full name
 		{
+			getchar();
 			newThing = getName();//get the ned name
 			EditDetailsInDb("full_name", newThing, "doctorDb.db", "doctorInfo", id);
 			break;
 		}
 		case 2://Edit title
 		{
+			getchar();
 			newThing = getTitle();//get the new title
 			EditDetailsInDb("title", newThing, "doctorDb.db", "doctorInfo", id);
 			break;
 		}
 		case 3://Edit medical field
 		{
+			getchar();
 			newThing = getMedicalField();//get the new medical field
 			EditDetailsInDb("medical_field", newThing, "doctorDb.db", "doctorInfo", id);
 			break;
@@ -472,7 +475,7 @@ void printAllBlockedDates(const char* str)
 //opens a day that was blocked before for mettings, replaces the string in the column from "Blocked" to the original list of hours of the doctor 
 void openBlockedDate(char* id)
 {
-	char buffer[2] = "";
+	char buffer[3] = "";
 	char* blockedDatesList = GetDetailsFromDb("blocked_dates", "doctorDb.db", "doctorInfo", id);//returns the blocked date list of the doctors db
 	printAllBlockedDates(blockedDatesList);//prints the blocked dates list to the screen
 	if (!strcmp(blockedDatesList, "NULL"))//if there are no blocked days
@@ -486,7 +489,7 @@ void openBlockedDate(char* id)
 		char* originalListOfHours = GetDetailsFromDb("original_list_of_hours", "doctorDb.db", "doctorInfo", id);
 		EditDetailsInDb(colName, originalListOfHours, "doctorDb.db", "doctorInfo", id);
 		//erase it from the blocked_dates
-		snprintf(buffer, 2, "%d", dateToReopen);//stores the date to reopen in buffer
+		snprintf(buffer, 3, "%d", dateToReopen);//stores the date to reopen in buffer
 		char* placeOfSubString = strstr(blockedDatesList, buffer);//return a pointer to the first appearance of the day to reopen in the blocked dates list
 		char* newBlockedDatedList = deleteSubString(blockedDatesList, placeOfSubString);//returns the blocked dates list without the date to reopen
 		if (!strcmp(newBlockedDatedList, ""))//if after the deletion there are no blocked dates update the field in the chart to NULL
