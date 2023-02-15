@@ -29,7 +29,7 @@ The system will create the doctor's work schedule for Febuary, each day will sta
 * Watch future appointments by date - choose by input the day on February, presents all future appointments on that day. 
 * Block a date for appointmets (Can't be performed on a date that has a scheduled appointment)
 * Edit profile details
-* Reopen a blocked date (can be performes only on blocked dates)
+* Reopen a blocked date (can be performed only on blocked dates)
 * Watch all blocked dates
 * Log out
 
