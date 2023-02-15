@@ -1,4 +1,4 @@
-# Health Care System
+# Healthcare System
 
 Doctor's appointments system where patients can schedule appointments independently and according to a doctor’s schedule on February.
 
