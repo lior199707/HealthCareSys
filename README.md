@@ -39,5 +39,5 @@ Visual Studio 2019 - the project is not compitable with futue versions.
 
 ## Usage
 
-Open "Poject1" directory in Visual Studio 2019 and run the HealthCareSys.c file to atart the program. 
+Open "Poject1" directory in Visual Studio 2019 and run the HealthCareSys.c file to start the program. 
 
