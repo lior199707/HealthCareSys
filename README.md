@@ -34,4 +34,10 @@ The system will create the doctor's work schedule for Febuary, each day will sta
 * Log out
 
 ## Predependencies
+
 Visual Studio 2019 - the project is not compitable with futue versions.
+
+## Usage
+
+Open "Poject1" directory in Visual Studio 2019 and run the HealthCareSys.c file to atart the program. 
+
